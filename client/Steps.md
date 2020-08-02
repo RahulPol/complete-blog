@@ -41,7 +41,7 @@ Add `.eslintrc.js` in your root diretory. Checkout file for more details.
 
 Add `.eslintignore` in your root directory. Checkout file for more details.
 
-make sure that you have eslint extention enabled. 
+make sure that you have eslint extention enabled.
 
 **Sample Test**
 
@@ -52,5 +52,42 @@ Add test.ts files and check the compiler works as expectd.
 .gitgnore: add dist & .vscode folder to list of gitignore
 
 Completed typescript setup
+
+---
+
+**Setup React**
+
+Remove the test.ts file.
+
+For the react I am going to use following directory structure
+
+<p>src/
+       components/ 
+                  screens -> pages of react app
+                  parts -> common parts to pages. e.g Header
+       assets/
+                 images 
+                 styles
+       declarations/ -> custom declarations 
+       index.tsx -> root component
+
+create the directory structure
+
+Add code for your root component in index.tsx and create a demo component Hello.tsx in parts
+
+Include this Hello component in root component
+
+Add index.html to your client folder and refer dist/index.js
+
+Now compile the code using tsc, Check the output by opening index.html file. You'll get an error: Uncaught TypeError: Failed to resolve module specifier "react". Relative references must start with either "/", "./", or "../"
+
+The reason behind the failure is, the typescript compiler just converted your .ts files into .js files and did not pull dependencies(react & react-dom) and pushed them into ./dist/ directory.
+To avoid this we will add react & react-dom dependencies into our index.html and remove react & react-dom reference from ./dist/index.js & ./dist/Hello.js
+
+Even after this your code won't work as your browser doesn't understand how to resovle Hello module dependency. You can read more about module resolution at https://www.typescriptlang.org/docs/handbook/module-resolution.html
+To avoid this make an absolute reference to Hello module in ./dist/index.js file. Use
+
+`import Hello from "/client/dist/components/parts/Hello.js";`
+Now your code works.
 
 ---
