@@ -91,3 +91,49 @@ To avoid this make an absolute reference to Hello module in ./dist/index.js file
 Now your code works.
 
 ---
+
+**Webpack Setup**
+
+There are few problems with pervious stage, 1. You need to always modify ./dist/_.js files after you run typescript compiler. 2. Another problem is that we have to include external dependencies in ./index.html, again this is a pain as our project might have hundreds of dependencies.
+We need something that will look up in our ./dist/_.js files and automatically add the dependencies and perform module resolution.And that is the whole reason of webpack, in addition to above things it also provide lots of benifits as we will see.
+
+Install webpack dev dependency
+
+`npm install --save-dev webpack webpack-cli html-webpack-plugin ts-loader file-loader source-map-loader webpack-dev-server`
+
+Note: It is a dev dependency and not a project one.
+
+Create a webpack configuration file in root directory. Check what we are doing in this file.
+
+Remove reference to dist/index.js  and to react & react-dom
+
+Checkout webpack scripts in package.json
+
+Note: when you'll run start:dev script, the output will not be stored in dist folder rather webpack generates it on the fly and server it directly on the given port. To get the dist, use npm run webpack
+
+**Segregate Webpack**
+
+Currently I have single webpack config and it is a better idea to segregate it into dev and prod, this is a common requirement to have sepearte configuration for development and production.This not very difficult in webpack.
+
+Create three files in root folder.
+
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
+
+Now move all common configurations in common, development specific in dev and production specific in prod.
+
+Install webpack merge package to merge your config
+`npm i -D webpack-merge`
+
+Merge your development and production config with common.
+
+
+Create two new run scripts for dev and prod in package.json
+Notice in webpack.prod.js the output file name includes a content hash so your main.js file is always latest. However there is a problem if you make changes to one of your component new set of main.[contentHash].js & main.[contentHash].map.js is created to avoid that problem you need another dev dependency.
+`npm i -D clean-webpack-plugin`
+
+This will clear your previous main.[contentHash].js & main.[contentHash].map.js.
+Make sure no other process is using your project when running prod webpack config as it might have permission issues.
+
+---
