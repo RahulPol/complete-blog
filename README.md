@@ -15,4 +15,5 @@
 
 ###### How to read
 
-To read the project follow steps.md of individual components. For e.g. to read react, visit client and go through steps.md.~~~~
+To read the project follow steps.md of individual components. For e.g. to read react, visit client and go through steps.md.
+
