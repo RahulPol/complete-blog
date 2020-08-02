@@ -5,7 +5,7 @@ import Hello from "./components/parts/Hello";
 
 ReactDOM.render(
   <div>
-    <Hello name="World" />
+    <Hello name="Rahul Pol" />
   </div>,
-  document.getElementById("example")
+  document.getElementById("root")
 );
