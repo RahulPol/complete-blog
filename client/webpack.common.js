@@ -43,21 +43,61 @@ module.exports = {
         use: {
           loader: "file-loader",
           options: {
-            name: "[name].[hash].[ext]",
-            outputPath: "imgs",
+            name: "[name].[ext]",
+            outputPath: "public/images",
           },
         },
+      },
+      // I have disabled this rule, as it uses file-loader but in the standard practice it is advised to use style-loader and css-loader for .css files
+      // {
+      //   test: /\.(css|scss)$/,
+      //   use: {
+      //     loader: "file-loader",
+      //     options: {
+      //       name: "[name].[hash].[ext]",
+      //       outputPath: "public/styles",
+      //     },
+      //   },
+      // },
+      /* The fourth rule combines all .css files and push them at beginning of head tag */
+      {
+        test: /\.css$/i,
+        use: [
+          {
+            loader: "style-loader",
+            options: {
+              insert: function insertAtTop(element) {
+                var parent = document.querySelector("head");
+                // eslint-disable-next-line no-underscore-dangle
+                var lastInsertedElement =
+                  window._lastElementInsertedByStyleLoader;
+
+                if (!lastInsertedElement) {
+                  parent.insertBefore(element, parent.firstChild);
+                } else if (lastInsertedElement.nextSibling) {
+                  parent.insertBefore(element, lastInsertedElement.nextSibling);
+                } else {
+                  parent.appendChild(element);
+                }
+
+                // eslint-disable-next-line no-underscore-dangle
+                window._lastElementInsertedByStyleLoader = element;
+              },
+            },
+          },
+          "css-loader",
+        ],
       },
       {
-        test: /\.(css|scss)$/,
-        use: {
-          loader: "file-loader",
-          options: {
-            name: "[name].[hash].[ext]",
-            outputPath: "styles",
-          },
-        },
+        test: /\.woff(\?.+)?$/,
+        use: "url-loader?limit=10000&mimetype=application/font-woff",
       },
+      {
+        test: /\.woff2(\?.+)?$/,
+        use: "url-loader?limit=10000&mimetype=application/font-woff",
+      },
+      { test: /\.ttf(\?.+)?$/, use: "file-loader" },
+      { test: /\.eot(\?.+)?$/, use: "file-loader" },
     ],
   },
 

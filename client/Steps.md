@@ -2,6 +2,7 @@
 
 **Install dendencies**
 
+
 | Dependency | Command |
 | - | - |
 | react | npm i react |
@@ -10,6 +11,7 @@
 Note: This is not the final list. I will add dependencies as and when required.
 
 Install dev dependencies
+
 
 | Dependency | Command |
 | - | - |
@@ -128,7 +130,6 @@ Install webpack merge package to merge your config
 
 Merge your development and production config with common.
 
-
 Create two new run scripts for dev and prod in package.json
 Notice in webpack.prod.js the output file name includes a content hash so your main.js file is always latest. However there is a problem if you make changes to one of your component new set of main.[contentHash].js & main.[contentHash].map.js is created to avoid that problem you need another dev dependency.
 `npm i -D clean-webpack-plugin`
@@ -137,3 +138,5 @@ This will clear your previous main.[contentHash].js & main.[contentHash].map.js.
 Make sure no other process is using your project when running prod webpack config as it might have permission issues.
 
 ---
+
+I have reconfigured webpack.common.js to include css and styles. check it.~~~~
